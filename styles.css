@@ -1,0 +1,191 @@
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+body{
+  font-family: "Lato", sans-serif;
+
+    background-repeat: no-repeat;
+    background-size: 3000px 1000px;
+
+} 
+.container{
+  max-width: 750px;
+  padding: 48px 24px;
+  color: white;
+  display: grid;
+  gap: 10px;
+}
+form{
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.search-area{
+  border-radius: 10px;
+  background-color: #0779E4;
+  padding: 24px 38px;
+  
+  background-repeat: no-repeat;
+  background-size: 900px 1080px;
+
+}
+
+.search-box {
+  width: 100%;
+  height: 40px;
+  background-color: #a09dd000;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #fff;
+}
+.search-box > i {
+  font-size: 16px;
+  color: #e7e6fb;
+}
+
+.search-box > input {
+  background: transparent;
+  flex: 1;
+  height: 40px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  padding-left: 10px;
+  color: #e7e6fb;
+}
+
+.search-box > input::placeholder {
+  color: #e7e6fb;
+}
+
+
+.search {
+  display: flex;
+  gap: 4px;
+  
+}
+.search-btn{
+  color: white;
+  border-style: none;
+  background: transparent;
+  border: 1px solid #fff;
+  font-size: 16px;
+  padding: 0 16px;
+  border-radius: 10px;
+  height: 40px;
+}
+.current-btn{
+  color: white;
+  border-style: none;
+  background: #35A661;
+  font-size: 16px;
+  padding: 0 16px;
+  border-radius: 10px;
+  height: 40px;
+}
+.search input:hover{
+  background-color: #65aef1;
+  border-style: none;
+  transition: ease-in-out 200ms;
+  cursor: pointer;
+}
+.location{
+  padding-top: 24px;
+}
+.city{
+  font-size: 20px;
+  font-weight: 550;
+  padding-bottom: 10px;
+}
+.date{
+  font-size: 16px;
+  margin-top: -10px
+}
+img{
+  width: 50px;
+
+}
+
+.display{
+  width: 120px;
+  margin-bottom: 18px;
+}
+h1, .forcast{
+  display: inline-block;
+}
+.h1-temp{
+  font-size: 60px;
+  padding-left: 24px;
+}
+h1 span{
+  font-size: 16px;
+
+}
+.forcast{
+  padding-left: 48px;
+  font-size: 24px;
+}
+.detail{
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+i{
+  font-size: 16px;
+  margin-right: 10px;
+  
+}
+
+.Humidity p, .wind p, .precipitation p, .air-quality p{
+  display: inline-block;
+  margin: 0;
+}
+.suggestion{
+  background-color: #0282A7;
+}
+.test{
+  background-color: #0282A7;
+  border-radius: 10px;
+  padding: 24px;
+  text-align: center;
+
+}
+
+.temp{
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  gap: 10px;
+}
+
+p{
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.weather-icon{
+  width: 55px;
+}
+.day{
+  padding-bottom: 10px;
+}
+.high{
+  font-weight: 700;
+  padding-bottom: 7px;
+}
+.temp-unit {
+  font-size: 24px;
+}
+.c, .f{
+  font-size: 28px;
+}
+.c:hover, .f:hover{
+  cursor: pointer;
+}
