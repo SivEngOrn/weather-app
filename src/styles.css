@@ -189,3 +189,9 @@ p{
 .c:hover, .f:hover{
   cursor: pointer;
 }
+
+.open-source{
+  color: #000000;
+  margin-left: -14px;
+  font-size: 18px;
+}
