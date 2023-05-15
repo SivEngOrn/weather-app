@@ -1,72 +1,60 @@
-let apiKey = "67b4e943b217a50af3f220f361ac825e";
-let date = new Date();
-
-let days = [
+const apiKey = "67b4e943b217a50af3f220f361ac825e";
+const daysOfWeek = [
   "Sunday",
   "Monday",
-  "Tueday",
+  "Tuesday",
   "Wednesday",
   "Thursday",
   "Friday",
   "Saturday",
 ];
-let currentDay = document.querySelector("#current-day");
-currentDay.innerHTML = days[date.getDay()];
+const currentDate = new Date();
+const currentDay = document.querySelector("#current-day");
+const currentTime = document.querySelector("#time");
+const temperature = document.querySelector("#temp-num");
+const cityValue = document.querySelector("#cityValue");
+const forecast = document.querySelector(".forecast");
+const form = document.querySelector("form");
+const currentBtn = document.querySelector(".current-btn");
 
-let time = document.querySelector("#time");
-time.innerHTML = date.toLocaleString("en-US", {
-  hour: "numeric",
-  minute: "numeric",
-  hour12: true,
-});
-
-function ppTemp(response){
-  let temperature = document.querySelector("#temp-num");
-  temperature.innerHTML = Math.round(response.data.main.temp);
-  let desciption = document.querySelector(".forcast");
-  desciption.innerHTML = response.data.weather[0].main;
+function displayCurrentDateAndTime() {
+  currentDay.textContent = daysOfWeek[currentDate.getDay()];
+  currentTime.textContent = currentDate.toLocaleString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
 }
-let apiURL = `https://api.openweathermap.org/data/2.5/weather?q=Phnom Penh&appid=${apiKey}&units=metric`;
-axios.get(apiURL).then(ppTemp);
 
-function showtemp(response) {
-  let temperature = document.querySelector("#temp-num");
-  temperature.innerHTML = Math.round(response.data.main.temp);
-  let cityValue = document.querySelector("#cityValue");
-  cityValue.innerHTML = response.data.name;
-  let desciption = document.querySelector(".forcast");
-  desciption.innerHTML = response.data.weather[0].main;
+function displayWeather(response) {
+  temperature.textContent = Math.round(response.data.main.temp);
+  cityValue.textContent = response.data.name;
+  forecast.textContent = response.data.weather[0].main;
+}
+
+function fetchWeatherData(cityName) {
+  const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
+  axios.get(apiURL).then(displayWeather);
 }
 
 function searchCity(event) {
   event.preventDefault();
-  let cityInput = document.querySelector("#city-input");
-  let apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput.value}&appid=${apiKey}&units=metric`;
-  axios.get(apiURL).then(showtemp);
+  const cityInput = document.querySelector("#city-input").value;
+  fetchWeatherData(cityInput);
 }
 
-let form = document.querySelector("form");
+function fetchCurrentLocationWeather() {
+  navigator.geolocation.getCurrentPosition((position) => {
+    const { latitude, longitude } = position.coords;
+    const apiURL = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+    axios.get(apiURL).then(displayWeather);
+  });
+}
+
+// Fetch weather data for the default city
+fetchWeatherData("Phnom Penh");
+
+// Event listeners
 form.addEventListener("submit", searchCity);
-
-let currentBtn = document.querySelector(".current-btn");
-
-function currentTemp(response){
-  let temperature = document.querySelector("#temp-num");
-  temperature.innerHTML = Math.round(response.data.main.temp);
-  let cityValue = document.querySelector("#cityValue");
-  cityValue.innerHTML = response.data.name;
-  let desciption = document.querySelector(".forcast");
-  desciption.innerHTML = response.data.weather[0].main;
-}
-
-function currentPosition(position) {
-  let lat = position.coords.latitude;
-  let lon = position.coords.longitude;
-  let apiURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-  axios.get(apiURL).then(currentTemp);
-}
-
-function currentWeather(){
-  navigator.geolocation.getCurrentPosition(currentPosition);
-}
-currentBtn.addEventListener("click", currentWeather)
+currentBtn.addEventListener("click", fetchCurrentLocationWeather);
+displayCurrentDateAndTime();
