@@ -1,4 +1,4 @@
-const apiKey = "67b4e943b217a50af3f220f361ac825e";
+const apiKey = "t4o1acab04a308bdff40a28e33ddea66";
 const daysOfWeek = [
   "Sunday",
   "Monday",
@@ -16,6 +16,11 @@ const cityValue = document.querySelector("#cityValue");
 const forecast = document.querySelector(".forecast");
 const form = document.querySelector("form");
 const currentBtn = document.querySelector(".current-btn");
+const icon = document.querySelector("#icon");
+const wind = document.querySelector("#wind-speed");
+const huhumidity = document.querySelector("#humidity-element");
+const pressure = document.querySelector("#pressure");
+const feelLike = document.querySelector("#feel-like");
 
 function displayCurrentDateAndTime() {
   currentDay.textContent = daysOfWeek[currentDate.getDay()];
@@ -27,13 +32,21 @@ function displayCurrentDateAndTime() {
 }
 
 function displayWeather(response) {
-  temperature.textContent = Math.round(response.data.main.temp);
-  cityValue.textContent = response.data.name;
-  forecast.textContent = response.data.weather[0].main;
+  celsiusTemperature = response.data.temperature.current;
+  temperature.textContent = Math.round(celsiusTemperature);
+  cityValue.textContent = response.data.city;
+  let desciption = document.querySelector(".forcast");
+  desciption.innerHTML = response.data.condition.description;
+  icon.setAttribute("src", response.data.condition.icon_url);
+  wind.textContent = response.data.wind.speed;
+  huhumidity.textContent = response.data.temperature.humidity;
+  pressure.textContent = response.data.temperature.pressure;
+  feelLike.textContent = Math.round(response.data.temperature.feels_like);
 }
 
 function fetchWeatherData(cityName) {
-  const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
+  const apiURL = `https://api.shecodes.io/weather/v1/current?query=${cityName}&key=${apiKey}&units=metric
+`;
   axios.get(apiURL).then(displayWeather);
 }
 
@@ -46,11 +59,30 @@ function searchCity(event) {
 function fetchCurrentLocationWeather() {
   navigator.geolocation.getCurrentPosition((position) => {
     const { latitude, longitude } = position.coords;
-    const apiURL = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+    const apiURL = `https://api.shecodes.io/weather/v1/current?lat=${latitude}&lon=${longitude}&key=${apiKey}&units=metric`;
     axios.get(apiURL).then(displayWeather);
   });
 }
 
+function displayFahrenheitTemperature(event) {
+  event.preventDefault();
+  let temperatureElement = document.querySelector("#temp-num");
+
+  celsiusLink.classList.remove("active");
+  fahrenheitLink.classList.add("active");
+  let fahrenheiTemperature = (celsiusTemperature * 9) / 5 + 32;
+  temperatureElement.innerHTML = Math.round(fahrenheiTemperature);
+}
+
+function displayCelsiusTemperature(event) {
+  event.preventDefault();
+  celsiusLink.classList.add("active");
+  fahrenheitLink.classList.remove("active");
+  let temperatureElement = document.querySelector("#temp-num");
+  temperatureElement.innerHTML = Math.round(celsiusTemperature);
+}
+
+let celsiusTemperature = null;
 // Fetch weather data for the default city
 fetchWeatherData("Phnom Penh");
 
@@ -58,3 +90,9 @@ fetchWeatherData("Phnom Penh");
 form.addEventListener("submit", searchCity);
 currentBtn.addEventListener("click", fetchCurrentLocationWeather);
 displayCurrentDateAndTime();
+
+let fahrenheitLink = document.querySelector("#fahrenheit-link");
+fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
+
+let celsiusLink = document.querySelector("#celsius-link");
+celsiusLink.addEventListener("click", displayCelsiusTemperature);

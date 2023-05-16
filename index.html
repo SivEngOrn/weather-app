@@ -54,14 +54,17 @@
 
           <div class="temp">
             <img
+              id="icon"
               class="display"
-              src="images/weather icons/wsymbol_0002_sunny_intervals.svg"
+              src=""
               alt=""
             />
             <h1>
               <span class="h1-temp" id="temp-num"></span>
               <span class="temp-unit"
-                ><span class="c">°C</span> | <span class="f">°F</span></span
+                ><a href="#" id="celsius-link" class="active">°C</a> |
+                    <a href="#" id="fahrenheit-link">°F</a></span
+                  ></span
               >
             </h1>
             <p class="forcast"></p>
@@ -71,25 +74,25 @@
               <i class="fa-solid fa-wind"></i>
               <p>Wind</p>
               <br />
-              <p>21 km/h</p>
+              <p><span id="wind-speed"></span> m/s</p>
             </div>
             <div class="Humidity">
               <i class="fa-solid fa-droplet"></i>
               <p>Humidity</p>
               <br />
-              <p>34 %</p>
+              <p><span id="humidity-element"></span> %</p>
             </div>
             <div class="precipitation">
               <i class="fa-solid fa-cloud-rain"></i>
-              <p>Precipitation</p>
+              <p>Pressure</p>
               <br />
-              <p>0 %</p>
+              <p><span id="pressure"></span> mbar</p>
             </div>
             <div class="air-quality">
               <i class="fa-solid fa-fan"></i>
-              <p>Air quality</p>
+              <p>Feel like</p>
               <br />
-              <p>0 %</p>
+              <p><span id="feel-like"></span> °C</p>
             </div>
           </div>
         </div>

@@ -6,13 +6,10 @@
 body{
   font-family: "Lato", sans-serif;
 
-    background-repeat: no-repeat;
-    background-size: 3000px 1000px;
-
 } 
 .container{
-  max-width: 750px;
-  padding: 48px 24px;
+  max-width: 700px;
+  padding: 48px 40px;
   color: white;
   display: grid;
   gap: 10px;
@@ -183,11 +180,20 @@ p{
 .temp-unit {
   font-size: 24px;
 }
-.c, .f{
+#celsius-link, #fahrenheit-link{
+  text-decoration: none;
   font-size: 28px;
+  color: #ffffff8e;
+
 }
-.c:hover, .f:hover{
-  cursor: pointer;
+
+.temp .active {
+  color: #fff !important;
+  cursor: default !important;
+}
+
+.temp .active:hover {
+  text-decoration: none;
 }
 
 .open-source{
