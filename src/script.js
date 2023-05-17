@@ -31,6 +31,50 @@ function displayCurrentDateAndTime() {
   });
 }
 
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[day];
+}
+
+function displayForecast(response) {
+  let forecast = response.data.daily;
+  let forecastElement = document.querySelector("#forecast");
+
+  let forecastHTML = `<div class="row test">`;
+  forecast.forEach(function (forecastDay, index) {
+    if (index < 5) {
+      forecastHTML =
+        forecastHTML +
+        `<div class="col">
+          <p class="day">${formatDay(forecastDay.time)}</p>
+          <div class="temp">
+            <img
+              src= "${forecastDay.condition.icon_url}"
+              alt=""
+              class="weather-icon"
+            />
+            <div>
+              <p class="high">${Math.round(
+                forecastDay.temperature.maximum
+              )}°</p>
+              <p>${Math.round(forecastDay.temperature.minimum)}°</p>
+            </div>
+          </div>
+        </div>`;
+    }
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
+function getForecast(cityName) {
+  let apiURL = `https://api.shecodes.io/weather/v1/forecast?query=${cityName}&key=${apiKey}`;
+  axios.get(apiURL).then(displayForecast);
+}
+
 function displayWeather(response) {
   celsiusTemperature = response.data.temperature.current;
   temperature.textContent = Math.round(celsiusTemperature);
@@ -50,19 +94,25 @@ function fetchWeatherData(cityName) {
   axios.get(apiURL).then(displayWeather);
 }
 
+
 function searchCity(event) {
   event.preventDefault();
   const cityInput = document.querySelector("#city-input").value;
   fetchWeatherData(cityInput);
+  getForecast(cityInput);
 }
 
 function fetchCurrentLocationWeather() {
   navigator.geolocation.getCurrentPosition((position) => {
     const { latitude, longitude } = position.coords;
     const apiURL = `https://api.shecodes.io/weather/v1/current?lat=${latitude}&lon=${longitude}&key=${apiKey}&units=metric`;
+    const apiforcast = `https://api.shecodes.io/weather/v1/forecast?lat=${latitude}&lon=${longitude}&key=${apiKey}&units=metric`;
     axios.get(apiURL).then(displayWeather);
+    axios.get(apiforcast).then(displayForecast);
   });
 }
+
+
 
 function displayFahrenheitTemperature(event) {
   event.preventDefault();
@@ -85,6 +135,7 @@ function displayCelsiusTemperature(event) {
 let celsiusTemperature = null;
 // Fetch weather data for the default city
 fetchWeatherData("Phnom Penh");
+getForecast("Phnom Penh");
 
 // Event listeners
 form.addEventListener("submit", searchCity);
